@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.test.fz.mapper.FzFraudBulletinMapper">
+    
+    <resultMap type="FzFraudBulletin" id="FzFraudBulletinResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="source"    column="source"    />
+        <result property="url"    column="url"    />
+        <result property="image"    column="image"    />
+        <result property="instruction"    column="instruction"    />
+        <result property="output"    column="output"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectFzFraudBulletinVo">
+        select id, title, content, source, url, image, instruction, output, create_time from fz_fraud_bulletin
+    </sql>
+
+    <select id="selectFzFraudBulletinList" parameterType="FzFraudBulletin" resultMap="FzFraudBulletinResult">
+        <include refid="selectFzFraudBulletinVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="image != null  and image != ''"> and image = #{image}</if>
+            <if test="instruction != null  and instruction != ''"> and instruction = #{instruction}</if>
+            <if test="output != null  and output != ''"> and output = #{output}</if>
+        </where>
+    </select>
+    
+    <select id="selectFzFraudBulletinById" parameterType="Long" resultMap="FzFraudBulletinResult">
+        <include refid="selectFzFraudBulletinVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFzFraudBulletin" parameterType="FzFraudBulletin">
+        insert into fz_fraud_bulletin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null">title,</if>
+            <if test="content != null">content,</if>
+            <if test="source != null">source,</if>
+            <if test="url != null">url,</if>
+            <if test="image != null">image,</if>
+            <if test="instruction != null">instruction,</if>
+            <if test="output != null">output,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="source != null">#{source},</if>
+            <if test="url != null">#{url},</if>
+            <if test="image != null">#{image},</if>
+            <if test="instruction != null">#{instruction},</if>
+            <if test="output != null">#{output},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFzFraudBulletin" parameterType="FzFraudBulletin">
+        update fz_fraud_bulletin
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="instruction != null">instruction = #{instruction},</if>
+            <if test="output != null">output = #{output},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFzFraudBulletinById" parameterType="Long">
+        delete from fz_fraud_bulletin where id = #{id}
+    </delete>
+
+    <delete id="deleteFzFraudBulletinByIds" parameterType="String">
+        delete from fz_fraud_bulletin where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
